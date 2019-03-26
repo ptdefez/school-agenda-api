@@ -8,6 +8,13 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 
+const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/users.routes');
+
+require('./configs/db.config');
+const session = require('./configs/session.config');
+require('./configs/passport.config');
+
 const app = express();
 
 app.use(logger('dev'));
@@ -18,8 +25,10 @@ app.use(cookieParser());
 
 app.use(session);
 app.use(passport.initialize());
-app.use(passport.Strategy());
+app.use(passport.session());
 
+app.use('/', authRoutes);
+app.use('/users', userRoutes);
 
 app.use((req, res, next) => {
     res.locals.session = req.user;

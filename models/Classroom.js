@@ -3,16 +3,16 @@ const mongoose = require ('mongoose');
 const classroomSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: 'Name is require'
+        required: [true, 'Name is require']
     },
     tutor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tutor',
-        required: 'Tutor is require'
+        ref: 'User',
+        required: [true, 'Tutor is require']
     },
     students: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
+        ref: 'User'
     }]
 
 }, {
