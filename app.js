@@ -10,7 +10,7 @@ const passport = require('passport');
 
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/users.routes');
-const classroomRoutes = require('./routes/classroom.routes');
+const classroomRoutes = require('./routes/classrooms.routes');
 
 require('./configs/db.config');
 const session = require('./configs/session.config');
