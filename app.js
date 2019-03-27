@@ -10,6 +10,7 @@ const passport = require('passport');
 
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/users.routes');
+const classroomRoutes = require('./routes/classroom.routes');
 
 require('./configs/db.config');
 const session = require('./configs/session.config');
@@ -29,6 +30,7 @@ app.use(passport.session());
 
 app.use('/', authRoutes);
 app.use('/users', userRoutes);
+app.use('/classrooms', classroomRoutes);
 
 app.use((req, res, next) => {
     res.locals.session = req.user;

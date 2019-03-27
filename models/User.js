@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     name:{
         type: String,
         require: [true, 'El campo es obligatorio'],
-        unique: true
+        // unique: true
     },
     email:{
         type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        require: [true, 'El campo es obligatorio'],
+        // require: [true, 'El campo es obligatorio'],
         minlength: [6, 'Necesita al menos 6 caracteres']
     },
     classroom: {
