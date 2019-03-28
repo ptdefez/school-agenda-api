@@ -11,10 +11,11 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/users.routes');
 const classroomRoutes = require('./routes/classrooms.routes');
+const qualificationRoutes = require('./routes/qualifications.routes');
 
 require('./configs/db.config');
 const session = require('./configs/session.config');
-require('./configs/passport.config');
+require('./configs/passport.config').setup(passport);
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(passport.session());
 app.use('/', authRoutes);
 app.use('/users', userRoutes);
 app.use('/classrooms', classroomRoutes);
+app.use('/qualifications', qualificationRoutes);
 
 app.use((req, res, next) => {
     res.locals.session = req.user;

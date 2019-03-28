@@ -20,7 +20,7 @@ module.exports.setup = (passport) => {
         .catch(error => next(error));
   });
  
-  passport.use('auth-local', new LocalStrategy({
+  passport.use('local-auth', new LocalStrategy({
       usernameField: 'name',
       passwordField: 'password'
   }, (name, password, next) => {

@@ -15,9 +15,14 @@ const qualificationSchema = new mongoose.Schema({
     },
     examCode: {
         type: String,
-        required: [true, 'Field is require']
+        required: [true, 'Field is require'],
+        unique: true
+    },
+    grade: {
+        type: Number,
+        min: 0,
+        max: 10
     }
-
 }, {
     timestamps: true,
     toJSON: {

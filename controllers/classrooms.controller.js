@@ -6,14 +6,15 @@ const Classroom = require('../models/Classroom');
 
 module.exports.list = (req, res, next) => {
     Classroom.find()
-        .populate('users')
+        .populate('tutor')
         .then(classrooms => res.json(classrooms))
         .catch(next);
 }
  
 module.exports.get = (req, res, next) => {
     Classroom.findById(req.params.id)
-        .populate('students', 'tutor')
+        .populate('students')
+        .populate( 'tutor')
         .then(classroom => {
             if (!classroom) {
                 throw createError(404, 'Classroom not found');
