@@ -4,13 +4,32 @@ const Classroom = require('../models/Classroom');
 const User = require('../models/User');
 
 module.exports.create = (req, res, next) => {
-    Qualification.findOne({ examCode: req.body.examCode })
-        .then(qualification => {
-           if (qualification) throw createError(409, 'Qualification already registered')
-            else return new Qualification(req.body).save()
-        })
+    new Qualification(req.body).save()
         .then(qualification => res.status(201).json(qualification))
         .catch(next);
  
 }
 
+module.exports.list = (req, res, next) => {
+    Qualification.find(req.query)
+        .populate('student')
+        .then(qualification => res.json(qualification))
+        .catch(next)
+}
+ 
+module.exports.getOne = (req, res, next) => {
+    Qualification.findById(req.params.id)
+        .populate('student')
+        .then(qualification => {
+            if(!qualification) {
+                throw createError(404, 'Qualification not found' )
+            } else {
+                res.json(qualification)
+            }
+        })
+        .catch(next);
+}
+ 
+// module.exports.updateOne = (req, res, next) => {
+   
+// }

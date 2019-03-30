@@ -1,4 +1,5 @@
 const mongoose = require ('mongoose');
+const Qualification = require('./Qualification');
 
 const classroomSchema = new mongoose.Schema({
     name: {
@@ -18,6 +19,7 @@ const classroomSchema = new mongoose.Schema({
 }, {
     timestamps: true,
     toJSON: {
+        virtuals: true,
         transform: (doc, ret) => {
             ret.id = doc._id;
             delete ret._id;
@@ -26,6 +28,13 @@ const classroomSchema = new mongoose.Schema({
         }
     }
 });
+
+classroomSchema.virtual('exam', {
+    ref: Qualification.modelName,
+    localField: 'students',
+    foreignField: 'examCode',
+    options: { sort: {students: 1}  }
+})
 
 const Classroom = mongoose.model('Classroom', classroomSchema);
 module.exports = Classroom;

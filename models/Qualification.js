@@ -13,10 +13,12 @@ const qualificationSchema = new mongoose.Schema({
     theme: {
         type: Number   
     },
+    date: {
+        type: Date
+    },
     examCode: {
         type: String,
-        required: [true, 'Field is require'],
-        unique: true
+        required: [true, 'Field is require']
     },
     grade: {
         type: Number,
@@ -34,6 +36,8 @@ const qualificationSchema = new mongoose.Schema({
         }
     }
 });
+
+qualificationSchema.index({ examCode: 1, student: 1}, { unique: true });
 
 const Qualification = mongoose.model('Qualification', qualificationSchema);
 module.exports = Qualification;

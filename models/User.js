@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const constants = require('../constants');
 const SALT_WORK_FACTOR = 10
 const FIRST_ADMIN_EMAIL = process.env.FIRST_ADMIN_EMAIL;
+const Qualification =require('./Qualification');
  
 const userSchema = new mongoose.Schema({
     role: {
@@ -36,11 +37,16 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         // require: [true, 'El campo es obligatorio']
+    },
+    avatarURL: {
+        type: String,
+        match: [/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi, 'Invalid URL pattern' ]
     }
  
 }, {
     timestamps: true,
     toJSON: {
+        virtuals: true,
         transform: (doc, ret) => {
             ret.id = doc._id;
             delete ret._id;
@@ -76,6 +82,13 @@ userSchema.pre('save', function (next) {
 userSchema.methods.checkPassword = function(password) {
     return bcrypt.compare(password, this.password);
 }
+
+userSchema.virtual('grades', {
+    ref: Qualification.modelName,
+    localField: '-id',
+    foreignField: 'subject',
+    options: { sort: {date: 1}  }
+})
  
 const User = mongoose.model('User', userSchema);
 module.exports = User;
