@@ -16,6 +16,7 @@ const qualificationRoutes = require('./routes/qualifications.routes');
 require('./configs/db.config');
 const session = require('./configs/session.config');
 require('./configs/passport.config').setup(passport);
+const cors = require('./configs/cors.config');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors);
 
 
 app.use(session);
