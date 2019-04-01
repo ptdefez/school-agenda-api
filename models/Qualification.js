@@ -10,12 +10,8 @@ const qualificationSchema = new mongoose.Schema({
        type: String,
        enum: ['Math','Leng', 'Engl', 'NatS', 'SocS' ]
     },
-    theme: {
-        type: Number   
-    },
-    date: {
-        type: Date
-    },
+    theme: Number,
+    date: Date,
     examCode: {
         type: String,
         required: [true, 'Field is require']

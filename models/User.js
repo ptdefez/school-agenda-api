@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const constants = require('../constants');
 const SALT_WORK_FACTOR = 10
 const FIRST_ADMIN_EMAIL = process.env.FIRST_ADMIN_EMAIL;
-const Qualification =require('./Qualification');
  
 const userSchema = new mongoose.Schema({
     role: {
@@ -52,6 +51,7 @@ const userSchema = new mongoose.Schema({
             delete ret._id;
             // delete ret,__v;
             delete ret.password;
+            ret.grades = ret.grades || [];
             return ret;
         }
     }
@@ -84,9 +84,9 @@ userSchema.methods.checkPassword = function(password) {
 }
 
 userSchema.virtual('grades', {
-    ref: Qualification.modelName,
-    localField: '-id',
-    foreignField: 'subject',
+    ref: 'Qualification',
+    localField: '_id',
+    foreignField: 'student',
     options: { sort: {date: 1}  }
 })
  

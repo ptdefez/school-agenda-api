@@ -13,7 +13,7 @@ module.exports.list = (req, res, next) => {
  
 module.exports.get = (req, res, next) => {
     Classroom.findById(req.params.id)
-        .populate('students')
+        .populate({path : 'students', populate : {path : 'grades'}})
         .populate( 'tutor')
         .then(classroom => {
             if (!classroom) {
