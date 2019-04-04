@@ -51,10 +51,26 @@ module.exports.update = (req, res, next) => {
 module.exports.addStudent = (req, res, next) => {
     User.findOne({ name: req.body.name})
         .then(user => {
-            classroom.students.push(user)
-            res.json(classroom);
+            if (!user) {
+                throw createError(404, 'User not found')
+            } else {
+                return Classroom.findById(req.params.id)
+                .then(classroom => {
+                    if (!classroom) {
+                    throw createError(404, 'Classroom not found')
+                    } else {
+                        classroom.students.push(user.id)
+                        return classroom.save()
+                            .then(classroom => {
+                                res.json(classroom);
+                            })
+                    }
+                })                
+               
+            }          
+            
         })
-        .cacth(next);
+        .catch(next);
 }
  
 module.exports.delete = (req, res, next) => {
