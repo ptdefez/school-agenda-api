@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const User = require('../models/User');
+const Classroom = require('../models/Classroom');
 const passport = require('passport');
 
 module.exports.list = (req, res, next) => {
@@ -29,7 +30,17 @@ module.exports.updateProfile = (req, res, next) => {
     if (req.file) user.avatarURL = req.file.secure_url;
  
     user.save()
-        .then(user => res.status(201).json(user))
+        .then(user => {
+            if (user.classroom) {
+                return Classroom.findById(user.classroom)
+                    .then(foundClassroom => {
+                        user.classroom = foundClassroom;
+                        res.status(201).json(user);
+                    })
+            } else {
+                res.status(201).json(user);
+            }
+        })
         .catch(next)
 }
  
