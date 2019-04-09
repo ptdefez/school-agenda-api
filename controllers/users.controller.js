@@ -4,7 +4,12 @@ const Classroom = require('../models/Classroom');
 const passport = require('passport');
 
 module.exports.list = (req, res, next) => {
-    User.find()
+    const criteria = {};
+    const { role } =  req.query;
+    if (role) {
+        criteria.role = role;
+    }
+    User.find(criteria)
         .then(users => res.json(users))
         .catch(next);
 }

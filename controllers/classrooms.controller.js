@@ -37,7 +37,7 @@ module.exports.create = (req, res, next) => {
 }
  
 module.exports.update = (req, res, next) => {
-    Classroom.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    Classroom.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         .then(classroom => {
             if (!classroom) {
                 throw createError(404, 'Classroom not found')
@@ -49,7 +49,7 @@ module.exports.update = (req, res, next) => {
 }
  
 module.exports.addStudent = (req, res, next) => {
-    User.findOne({ name: req.body.name})
+    User.findById(req.body.id)
         .then(user => {
             if (!user) {
                 throw createError(404, 'User not found')
@@ -62,7 +62,32 @@ module.exports.addStudent = (req, res, next) => {
                         classroom.students.push(user.id)
                         return classroom.save()
                             .then(classroom => {
-                                res.json(classroom);
+                                res.json(user);
+                            })
+                    }
+                })                
+               
+            }          
+            
+        })
+        .catch(next);
+}
+
+module.exports.expelStudent = (req, res, next) => {
+    User.findOne({ _id: req.body.id})
+        .then(user => {
+            if (!user) {
+                throw createError(404, 'User not found')
+            } else {
+                return Classroom.findById(req.params.id)
+                .then(classroom => {
+                    if (!classroom) {
+                    throw createError(404, 'Classroom not found')
+                    } else {
+                        classroom.students = classroom.students.filter(student => student._id.toString() !== user._id.toString())
+                        return classroom.save()
+                            .then(() => {
+                                res.json(user);
                             })
                     }
                 })                

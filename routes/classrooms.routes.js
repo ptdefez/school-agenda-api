@@ -9,6 +9,7 @@ router.post('/',secure.checkRole(constants.ROLE_TUTOR), classroomsController.cre
 router.get('/:id',secure.checkRole(constants.ROLE_TUTOR), classroomsController.get);
 router.put('/:id',secure.checkRole(constants.ROLE_TUTOR), classroomsController.update);
 router.put('/:id/addStudent',secure.checkRole(constants.ROLE_TUTOR), classroomsController.addStudent);
+router.put('/:id/expelStudent',secure.checkRole(constants.ROLE_TUTOR), classroomsController.expelStudent);
 router.delete('/:id',secure.checkRole(constants.ROLE_TUTOR), classroomsController.delete);
  
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const constants = require('../constants');
 const SALT_WORK_FACTOR = 10
-const FIRST_ADMIN_EMAIL = process.env.FIRST_ADMIN_EMAIL;
+const FIRST_TUTORS_EMAILS = process.env.FIRST_TUTORS_EMAILS.split(',').map(email => email.trim());
  
 const userSchema = new mongoose.Schema({
     role: {
@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', function (next) {
     const user = this;
  
-    if (user.email === FIRST_ADMIN_EMAIL) {
+    if (FIRST_TUTORS_EMAILS.indexOf(user.email) !== -1) {
         user.role = constants.ROLE_TUTOR;
     }
     if (!user.isModified('password')) {
