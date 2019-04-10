@@ -5,8 +5,28 @@ const User = require('../models/User');
 const Classroom = require('../models/Classroom');
 
 module.exports.list = (req, res, next) => {
-    Classroom.find()
+    // Classroom.find()
+    //     .populate('tutor')
+    //     .then(classrooms => res.json(classrooms))
+    //     .catch(next);
+    const criteria = {};
+    const { tutor } =  req.query;
+    if (tutor) {
+        criteria.tutor = tutor;
+    }
+    Classroom.find(criteria)
         .populate('tutor')
+        .then(classrooms => res.json(classrooms))
+        .catch(next);
+}  
+
+module.exports.tutorList = (req, res, next) => {
+    const criteria = {};
+    const { tutor } =  req.query;
+    if (tutor) {
+        criteria.tutor = tutor;
+    }
+    Classroom.find(criteria)
         .then(classrooms => res.json(classrooms))
         .catch(next);
 }

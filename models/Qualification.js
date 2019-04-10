@@ -10,12 +10,20 @@ const qualificationSchema = new mongoose.Schema({
        type: String,
        enum: ['Math','Leng', 'Engl', 'NatS', 'SocS' ]
     },
-    theme: Number,
+    kind: {
+        type: String,
+        enum: ['Test', 'Trimester', 'Recovery']
+    },
+    number: Number,
     date: Date,
     examCode: {
         type: String,
         required: [true, 'Field is require']
     },
+    classroom:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Classroom',
+    }, 
     grade: {
         type: Number,
         min: 0,

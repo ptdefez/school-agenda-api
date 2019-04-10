@@ -29,11 +29,11 @@ const classroomSchema = new mongoose.Schema({
     }
 });
 
-classroomSchema.virtual('exam', {
-    ref: Qualification.modelName,
-    localField: 'students',
-    foreignField: 'examCode',
-    options: { sort: {students: 1}  }
+classroomSchema.virtual('exams', {
+    ref: 'Qualification',
+    localField: '_id',
+    foreignField: 'classroom',
+    options: { sort: {date: 1}  }
 })
 
 const Classroom = mongoose.model('Classroom', classroomSchema);
