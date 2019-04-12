@@ -20,6 +20,7 @@ module.exports.list = (req, res, next) => {
 module.exports.getOne = (req, res, next) => {
     Qualification.findById(req.params.id)
         .populate('student')
+        .populate('classroom')
         .then(qualification => {
             if(!qualification) {
                 throw createError(404, 'Qualification not found' )

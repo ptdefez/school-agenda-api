@@ -32,6 +32,7 @@ const qualificationSchema = new mongoose.Schema({
 }, {
     timestamps: true,
     toJSON: {
+        virtuals: true,
         transform: (doc, ret) => {
             ret.id = doc._id;
             delete ret._id;
@@ -40,6 +41,13 @@ const qualificationSchema = new mongoose.Schema({
         }
     }
 });
+
+// classroomSchema.virtual('examStudent', {  
+//     ref: 'Classroom',
+//     localField: 'classroom',
+//     foreignField: 'classroom',
+//     options: { sort: {date: 1}  }
+// })
 
 qualificationSchema.index({ examCode: 1, student: 1}, { unique: true });
 
