@@ -35,6 +35,7 @@ module.exports.get = (req, res, next) => {
     Classroom.findById(req.params.id)
         .populate({path : 'students', populate : {path : 'grades'}})
         .populate( 'tutor')
+        .populate('exams')
         .then(classroom => {
             if (!classroom) {
                 throw createError(404, 'Classroom not found');

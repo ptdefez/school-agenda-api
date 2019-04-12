@@ -17,6 +17,7 @@ module.exports.list = (req, res, next) => {
 module.exports.getProfile = (req, res, next) => {
     User.findById(req.params.id)
         .populate('classroom')
+        .populate('grades')
         .populate( 'tutor')
         .then(user => {
             if (!user) {
